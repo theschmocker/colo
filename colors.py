@@ -1,34 +1,6 @@
 #!/usr/bin/python3
 import sys
 
-base16 = {'a': 10, 'b': 11, 'c': 12, 'd': 13, 'e': 14, 'f': 15}
-
-def convertToDecimal(hex):
-    digits = hex.lower()
-    if len(digits) == 1:
-        digits += digits
-    digitSequence = reversed(list(digits))
-    decimal = 0
-    for index, value in enumerate(digitSequence):
-        number = 0
-        if value in base16:
-            number = base16[value]
-        else:
-            number = int(value)
-        decimal += number * (16 ** index)
-    return decimal
-
-def hexToRGB(rgbString):
-    colors = {}
-    if len(rgbString) == 3:
-        colors['r'] = convertToDecimal(rgbString[0])
-        colors['g'] = convertToDecimal(rgbString[1])
-        colors['b'] = convertToDecimal(rgbString[2])
-    elif len(rgbString) == 6:
-        colors['r'] = convertToDecimal(rgbString[0:2])
-        colors['g'] = convertToDecimal(rgbString[2:4])
-        colors['b'] = convertToDecimal(rgbString[4:6])
-    return colors
 
 def calculateLuminance(min, max):
     return (min + max) / 2
@@ -119,7 +91,13 @@ def HSLtoRGB(hsl):
         exit(1)
 
     m = hsl['l'] - 0.5 * chroma
-    rgb = {'r': 255 * (intermediateRGB['r'] + m), 'g': 255 * (intermediateRGB['g'] + m), 'b': 255 * (intermediateRGB['b'] + m)}
+    
+    rgb = {}
+
+    rgb['r'] = 255 * (intermediateRGB['r'] + m)
+    rgb['g'] = 255 * (intermediateRGB['g'] + m)
+    rgb['b'] = 255 * (intermediateRGB['b'] + m)
+
     return rgb
 
 try:
