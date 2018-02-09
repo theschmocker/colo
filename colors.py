@@ -21,13 +21,13 @@ def convertToDecimal(hex):
 def hexToRGB(rgbString):
     colors = {}
     if len(rgbString) == 3:
-        colors['red'] = convertToDecimal(rgbString[0])
-        colors['green'] = convertToDecimal(rgbString[1])
-        colors['blue'] = convertToDecimal(rgbString[2])
+        colors['r'] = convertToDecimal(rgbString[0])
+        colors['g'] = convertToDecimal(rgbString[1])
+        colors['b'] = convertToDecimal(rgbString[2])
     elif len(rgbString) == 6:
-        colors['red'] = convertToDecimal(rgbString[0:2])
-        colors['green'] = convertToDecimal(rgbString[2:4])
-        colors['blue'] = convertToDecimal(rgbString[4:6])
+        colors['r'] = convertToDecimal(rgbString[0:2])
+        colors['g'] = convertToDecimal(rgbString[2:4])
+        colors['b'] = convertToDecimal(rgbString[4:6])
     return colors
 
 def calculateLuminance(min, max):
@@ -47,7 +47,7 @@ def calculateSaturation(R, G, B):
     else:
         saturation = 0
 
-    return round(saturation, 2)
+    return saturation
 
 
 
@@ -67,13 +67,13 @@ def calculateHue(R, G, B):
     if hue < 0:
         hue += 360
 
-    return round(hue)
+    return hue
 
 def RGBtoHSL(rgb):
     hsl = {}
-    R = rgb['red'] / 255.0
-    G = rgb['green'] / 255.0
-    B = rgb['blue'] / 255.0
+    R = rgb['r'] / 255.0
+    G = rgb['g'] / 255.0
+    B = rgb['b'] / 255.0
     minimum = min(R, G, B)
     maximum = max(R, G, B)
     if minimum != maximum:
@@ -83,9 +83,9 @@ def RGBtoHSL(rgb):
         hue = 0
         saturation = 0
 
-    hsl['h'] = round(hue, 2)
-    hsl['s'] = round(saturation, 2)
-    hsl['l'] = round(calculateLuminance(minimum, maximum), 2)
+    hsl['h'] = hue
+    hsl['s'] = saturation
+    hsl['l'] = calculateLuminance(minimum, maximum)
 
     return hsl
 
