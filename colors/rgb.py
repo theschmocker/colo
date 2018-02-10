@@ -19,10 +19,25 @@ def convertToDecimal(hex):
                 print('Your hex value seems to have a value out of the range 0-f.')
         decimal += number * (16 ** index)
     return decimal
+    
+def isNumber(number):
+    return type(number) is int or type(number) is float
 
 class RGB(object):
-    def __init__(self, color="#000000"):
-        if 'HSL' not in str(type(color)):
+    def __init__(self, r=None, g=None, b=None):
+        if r is None or (isNumber(r) and b is None):
+            raise ValueError('RGB accepts these formats of arguments. RGB(hsl_object), RGB(hex_string), RGB(number_r, number_g, number_b')
+
+        # Usage: RGB(255, 255, 255)
+        elif None not in (r, g, b):
+            if all(isNumber(i) for i in (r, g, b)):
+                self.r, self.g, self.b = (r, g, b)
+            else:
+                raise TypeError("Arguments must be of type int or float")
+
+        # Usage: RGB('#bada55')
+        elif type(r) is str: 
+            color = r
             #Deal with hex string
             if color[0] == '#':
                 color = color[1:]
