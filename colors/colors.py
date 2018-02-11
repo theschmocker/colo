@@ -2,64 +2,6 @@
 import sys
 
 
-def calculateLuminance(min, max):
-    return (min + max) / 2
-
-def calculateSaturation(R, G, B):
-    minimum = min(R, G, B)
-    maximum = max(R, G, B)
-    luminance = calculateLuminance(minimum, maximum)
-
-    if luminance < 0.5:
-        saturation = (maximum - minimum) / (maximum + minimum)
-    elif luminance > 0.5:
-        saturation = (maximum - minimum) / (2.0 - maximum - minimum)
-    elif luminance == 0.5 and minimum != maximum:
-        saturation = 1.0
-    else:
-        saturation = 0
-
-    return saturation
-
-
-
-def calculateHue(R, G, B):
-    minimum = min(R, G, B)
-    maximum = max(R, G, B)
-
-    if R == maximum:
-        hue = (G - B) / (maximum - minimum)
-    elif G == maximum:
-        hue = 2.0 + ((B - R) / (maximum - minimum))
-    elif B == maximum:
-        hue = 4.0 + ((R - G) / (maximum - minimum))
-    # Convert to degrees 
-    hue *= 60
-
-    if hue < 0:
-        hue += 360
-
-    return hue
-
-def RGBtoHSL(rgb):
-    hsl = {}
-    R = rgb['r'] / 255.0
-    G = rgb['g'] / 255.0
-    B = rgb['b'] / 255.0
-    minimum = min(R, G, B)
-    maximum = max(R, G, B)
-    if minimum != maximum:
-        hue = calculateHue(R, G, B)
-        saturation = calculateSaturation(R, G, B) 
-    else:
-        hue = 0
-        saturation = 0
-
-    hsl['h'] = hue
-    hsl['s'] = saturation
-    hsl['l'] = calculateLuminance(minimum, maximum)
-
-    return hsl
 
 # Adapted from https://en.wikipedia.org/wiki/HSL_and_HSV#Converting_to_RGB
 def HSLtoRGB(hsl):
