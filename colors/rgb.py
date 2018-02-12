@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-from hsl import HSL
+import hsl
 
 base16 = {'a': 10, 'b': 11, 'c': 12, 'd': 13, 'e': 14, 'f': 15}
 
@@ -63,7 +63,6 @@ def calculate_hue(R, G, B):
 
 
 def RGB_to_HSL(R, G, B):
-    hsl = {}
     R /= 255.0
     G /= 255.0
     B /= 255.0
@@ -76,18 +75,14 @@ def RGB_to_HSL(R, G, B):
         hue = 0
         saturation = 0
 
-    #hsl['h'] = hue
-    #hsl['s'] = saturation
-    #hsl['l'] = calculate_luminance(minimum, maximum)
-
-    return HSL(hue, saturation, calculate_luminance(minimum, maximum))
+    return hsl.HSL(hue, saturation, calculate_luminance(minimum, maximum))
 
 class RGB(object):
     def __init__(self, r=None, g=None, b=None):
         if r is None or (is_number(r) and b is None):
             raise ValueError('RGB accepts these formats of arguments. RGB(hex_string), RGB(number_r, number_g, number_b')
 
-        elif type(r) is HSL:
+        elif type(r) is hsl.HSL:
             raise ValueError('RGB(hsl_object) is not supported. Use HSL.to_RGB() instead')
 
         # Usage: RGB(255, 255, 255)
@@ -113,11 +108,9 @@ class RGB(object):
                 self.b = convert_to_decimal(color[4:6])
             else:
                 raise Exception('Malformed color.')
-        #else:
-            #Deal with HSL object
 
     def to_HSL(self):
         return RGB_to_HSL(self.r, self.g, self.b)
 
     def __str__(self):
-        return 'rgb({0}, {1}, {2})'.format(self.r, self.g, self.b)
+        return 'rgb({0}, {1}, {2})'.format(round(self.r), round(self.g), round(self.b))
