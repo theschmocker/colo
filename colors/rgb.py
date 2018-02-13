@@ -17,9 +17,21 @@ def convert_to_decimal(hex):
             try:
                 number = int(value)
             except ValueError:
-                print('Your hex value seems to have a value out of the range 0-f.')
+                raise ValueError('Your hex value seems to have a value out of the range 0-f.')
         decimal += number * (16 ** index)
     return decimal
+
+# Only works for base ten numbers < 255. Should probably make this a bit more general purpose
+# WARNING: Dirty hackery ahead...
+# Returns a two digit hex value as a string
+def convert_to_hex(decimal):
+    sixteens = int(decimal) // 16
+    ones = int(decimal) % 16
+    if sixteens >= 10:
+        sixteens = list(base16.keys())[list(base16.values()).index(sixteens)]
+    if ones >= 10:
+        ones = list(base16.keys())[list(base16.values()).index(ones)]
+    return str(sixteens) + str(ones)
     
 def is_number(number):
     return type(number) is int or type(number) is float
@@ -111,6 +123,9 @@ class RGB(object):
 
     def to_HSL(self):
         return RGB_to_HSL(self.r, self.g, self.b)
+
+    def to_hex(self):
+        return '#' + ''.join(convert_to_hex(num) for num in (self.r, self.g, self.b))
 
     def __str__(self):
         return 'rgb({0}, {1}, {2})'.format(round(self.r), round(self.g), round(self.b))
