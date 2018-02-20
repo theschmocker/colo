@@ -4,7 +4,10 @@ import rgb
 
 class HSL(object):
     def __init__(self, h, s, l):
-        self.h, self.s, self.l = (h, s, l)
+        if all(rgb.is_number(i) for i in (h, s, l)):
+            self.h, self.s, self.l = (h, s, l)
+        else:
+            raise TypeError("Arguments must be of type int or float")
 
     def to_RGB(self):
         #C
