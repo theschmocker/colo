@@ -52,3 +52,9 @@ class HSL(object):
         s = round(self.s * 100)
         l = round(self.l * 100)
         return 'hsl({0}, {1}%, {2}%)'.format(h, s, l)
+
+def from_string(string):
+    if not string.startswith('hsl'):
+        raise ValueError('You must provide an HSL string, such as "hsl(74, 64%, 59%)"')
+    
+
