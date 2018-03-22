@@ -119,7 +119,7 @@ class RGB(object):
                 self.g = convert_to_decimal(color[2:4])
                 self.b = convert_to_decimal(color[4:6])
             else:
-                raise Exception('Malformed color.')
+                raise ValueError('Malformed color.')
 
     def to_HSL(self):
         return RGB_to_HSL(self.r, self.g, self.b)
