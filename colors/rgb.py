@@ -1,5 +1,4 @@
 #!/usr/bin/python3
-import hsl
 
 base16 = {'a': 10, 'b': 11, 'c': 12, 'd': 13, 'e': 14, 'f': 15}
 
@@ -87,14 +86,16 @@ def RGB_to_HSL(R, G, B):
         hue = 0
         saturation = 0
 
-    return hsl.HSL(hue, saturation, calculate_luminance(minimum, maximum))
+    from .hsl import HSL
+    return HSL(hue, saturation, calculate_luminance(minimum, maximum))
 
 class RGB(object):
     def __init__(self, r=None, g=None, b=None):
+        from .hsl import HSL
         if r is None or (is_number(r) and b is None):
             raise ValueError('RGB accepts these formats of arguments. RGB(hex_string), RGB(number_r, number_g, number_b')
 
-        elif type(r) is hsl.HSL:
+        elif type(r) is HSL:
             raise ValueError('RGB(hsl_object) is not supported. Use HSL.to_RGB() instead')
 
         # Usage: RGB(255, 255, 255)
